@@ -1,0 +1,17 @@
+* I2C1 buf initializatoin bug fix
+* I2C1 is not functioning after system reboot while RTC backup battery is plugged in.
+* Patch initializes I2C1
+
+diff -uNr a/board/ti/var-am35xx/var-am35xx.c b/board/ti/var-am35xx/var-am35xx.c
+--- a/board/ti/var-am35xx/var-am35xx.c	2011-05-11 22:38:06.953665477 +0300
++++ b/board/ti/var-am35xx/var-am35xx.c	2011-05-11 22:37:12.631142490 +0300
+@@ -116,6 +116,9 @@
+ 
+ 	dieid_num_r();
+ 
++// proper initializatoin of i2c1 for proper TPS operation.
++	I2C_SET_BUS(1);
++	i2c_probe(0x48);
+ 
+ #if defined(CONFIG_DRIVER_TI_EMAC)
+ 
