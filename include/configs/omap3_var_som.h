@@ -84,7 +84,7 @@
 /* Environment information */
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	DEFAULT_LINUX_BOOT_ENV \
-	"fdtfile=omap3-var-customboard23.dtb\0" \
+	"fdtfile=omap3-vs-311.dtb\0" \
 	"bootdir=/boot/\0" \
 	"bootfile=zImage\0" \
 	"usbtty=cdc_acm\0" \
