@@ -310,7 +310,8 @@ dtb-$(CONFIG_ARCH_OMAP3) += am3517-craneboard.dtb \
 	omap3-sbc-t3530.dtb \
 	omap3-sbc-t3730.dtb \
 	omap3-zoom3.dtb \
-	omap3-var-customboard23.dtb
+	omap3-var-customboard23.dtb \
+	omap3-vs-311.dtb
 dtb-$(CONFIG_SOC_AM33XX) += am335x-base0033.dtb \
 	am335x-bone.dtb \
 	am335x-boneblack.dtb \
