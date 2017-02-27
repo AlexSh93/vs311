@@ -220,7 +220,7 @@
 
 &gpmc {
 	ranges = <0 0 0x00000000 0x20000000>,
-		 <5 0 0x2c000000 0x01000000>; 
+		 <4 0 0x2c000000 0x01000000>; /*????*/
 		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
@@ -271,32 +271,67 @@
 	};
 	
 	smsc2: ethernet@gpmc {
-		compatible = "smsc,lan9311", "smsc,lan9115";
+		compatible = "smsc,lan9221", "smsc,lan9115";
 		bank-width = <2>;
-		gpmc,device-width = <1>;
-		gpmc,cycle2cycle-samecsen = <1>;
+		gpmc,device-width = <1>; 
+		/*Общая ширина устройства (устройств), подключенного к консоли управления
+		чип-выберите в байтах. Консоль управления групповыми политиками поддерживает 8-битные
+		и 16-разрядные устройства и поэтому это свойство должно быть
+		1 или 2.*/
+		gpmc,cycle2cycle-samecsen = <1>; 
+		/*Add "cycle2cycle-delay" between successive
+		accesses to the same CS
+		Добавить "cycle2cycle задержку" между последовательными
+		получает доступ к той же CS
+		*/
 		gpmc,cycle2cycle-diffcsen = <1>;
-		gpmc,cs-on-ns = <4>;
-		gpmc,cs-rd-off-ns = <150>;
-		gpmc,cs-wr-off-ns = <150>;
-		gpmc,adv-on-ns = <0>;
-		gpmc,adv-rd-off-ns = <15>;
-		gpmc,adv-wr-off-ns = <40>;
-		gpmc,oe-on-ns = <45>;
-		gpmc,oe-off-ns = <140>;
-		gpmc,we-on-ns = <45>;
-		gpmc,we-off-ns = <140>;
-		gpmc,rd-cycle-ns = <155>;
-		gpmc,wr-cycle-ns = <155>;
-		gpmc,access-ns = <120>;
-		gpmc,page-burst-access-ns = <20>;
-		gpmc,bus-turnaround-ns = <75>;
-		gpmc,cycle2cycle-delay-ns = <75>;
-		gpmc,wait-monitoring-ns = <0>;
-		gpmc,clk-activation-ns = <0>;
-		gpmc,wr-data-mux-bus-ns = <0>;
-		gpmc,wr-access-ns = <0>;
+		/*Add "cycle2cycle-delay" between successive
+		accesses to a different CS
+		Добавить "cycle2cycle задержку" между последовательными
+		осуществляет доступ к другим CS*/
+		/*GPMC_CONFIG2*/
+		gpmc,cs-on-ns = <4>; 				/*Assertion time*/
+		gpmc,cs-rd-off-ns = <150>;  		/*Read deassertion time*/
+		gpmc,cs-wr-off-ns = <150>;  		/*Write deassertion time*/
+		/*GPMC_CONFIG3:*/
+		gpmc,adv-on-ns = <0>; 				/*Assertion time*/
+		gpmc,adv-rd-off-ns = <15>;  		/*Read deassertion time*/
+		gpmc,adv-wr-off-ns = <40>;  		/*Write deassertion time*/
+		/*GPMC_CONFIG4*/
+		gpmc,oe-on-ns = <45>; 				/*Assertion time*/
+		gpmc,oe-off-ns = <140>; 			/*Deassertion time*/
+		/*GPMC_CONFIG4*/
+		gpmc,we-on-ns = <45>; 				/*Assertion time*/
+		gpmc,we-off-ns = <140>; 			/*Deassertion time*/
+		/*GPMC_CONFIG5*/
+		gpmc,rd-cycle-ns = <155>;			/*Total read cycle time */
+		gpmc,wr-cycle-ns = <155>;			/*Total write cycle time*/
+		gpmc,access-ns = <120>;				/*Start-cycle to first data valid delay*/
+		gpmc,page-burst-access-ns = <20>;	/*Multiple access word delay*/
+		gpmc,bus-turnaround-ns = <75>;		/*Turn-around time between successive accesses*/
+		gpmc,cycle2cycle-delay-ns = <75>;	/*Delay between chip-select pulses*/
+		gpmc,wait-monitoring-ns = <0>;		/*Start of wait monitoring with regard to valid data*/
+		gpmc,clk-activation-ns = <0>;		/*GPMC clock activation time*/
+		/*Boolean timing parameters. If property is present parameter enabled and disabled if omitted:*/
+		gpmc,wr-data-mux-bus-ns = <0>;		
+		/*In address-data multiplex mode, specifiesthe time when 
+		the first data is driven onthe address-data bus.
+		В режиме мультиплекса адреса данных, определяет
+		время, когда первые данные толкнут
+		bus адресные данные.*/
+		gpmc,wr-access-ns = <0>;			
+		/*In synchronous write mode, for single or
+		burst accesses, defines the number of
+		GPMC_FCLK cycles from start access time
+		to the GPMC_CLK rising edge used by the
+		memory device for the first data capture.
+		В режиме синхронной записи, для одного или
+		взрыв получает доступ, определяет количество
+		GPMCPMC_FCLK циклов от времени доступа запуска
+		к переднему фронту GPMC_CLK используется самая
+		запоминающее устройство для первого сбора данных*/
 		vddvario-supply = <&vddvario>;
+
 		vdd33a-supply = <&vdd33a>;
 		reg-io-width = <4>;
 		smsc,save-mac-address;
