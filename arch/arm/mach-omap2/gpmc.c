@@ -543,15 +543,20 @@ static int gpmc_cs_remap(int cs, u32 base)
 		return 0;
 	gpmc_cs_disable_mem(cs);
 	ret = gpmc_cs_delete_mem(cs);
-	if (ret < 0)
+	if (ret < 0) {
+		pr_err("func: gpmc_cs_delete_mem returned < 0 line: %s;  file %s\n", __LINE__, __FILE__);
 		return ret;
+	}	
 	ret = gpmc_cs_insert_mem(cs, base, size);
-	if (ret < 0)
+	if (ret < 0) {
+		pr_err("func: gpmc_cs_insert_mem returned < 0 line: %s;  file %s\n", __LINE__, __FILE__);
 		return ret;
+	}
 	ret = gpmc_cs_enable_mem(cs, base, size);
-	if (ret < 0)
+	if (ret < 0) {
+		pr_err("func: gpmc_cs_enable_mem returned < 0 line: %s;  file %s\n", __LINE__, __FILE__);
 		return ret;
-
+	}
 	return 0;
 }
 
