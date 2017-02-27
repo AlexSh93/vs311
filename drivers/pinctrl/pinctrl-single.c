@@ -1174,8 +1174,8 @@ static int pcs_parse_one_pinctrl_entry(struct pcs_device *pcs,
 		pin = pcs_get_pin_by_offset(pcs, offset);
 		if (pin < 0) {
 			dev_err(pcs->dev,
-				"could not add functions for %s %ux\n",
-				np->name, offset);
+				"could not add functions for %s %ux line: %s\n",
+				np->name, offset, __LINE__);
 			break;
 		}
 		pins[found++] = pin;
@@ -1302,8 +1302,8 @@ static int pcs_parse_bits_in_pinctrl_entry(struct pcs_device *pcs,
 			pin = pcs_get_pin_by_offset(pcs, offset);
 			if (pin < 0) {
 				dev_err(pcs->dev,
-					"could not add functions for %s %ux\n",
-					np->name, offset);
+					"could not add functions for %s %ux line: %s\n",
+					np->name, offset, __LINE__);
 				break;
 			}
 			pins[found++] = pin + pin_num_from_lsb;
