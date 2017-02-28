@@ -952,7 +952,6 @@ static int pcs_add_pingroup(struct pcs_device *pcs,
 static int pcs_get_pin_by_offset(struct pcs_device *pcs, unsigned offset)
 {
 	unsigned index;
-
 	if (offset >= pcs->size) {
 		dev_err(pcs->dev, "mux offset out of range: 0x%x (0x%x)\n",
 			offset, pcs->size);
@@ -1167,13 +1166,16 @@ static int pcs_parse_one_pinctrl_entry(struct pcs_device *pcs,
 		int pin;
 
 		offset = be32_to_cpup(mux + index++);
+		dev_notice(pcs->dev, "line: 1170 %s offset = %ux \n", np->name, offset);
 		val = be32_to_cpup(mux + index++);
+		dev_notice(pcs->dev, "line: 1172 %s val = %ux \n", np->name, val);
+		dev_notice(pcs->dev, "line: 1173 %s pcs->base = %ux \n", np->name, pcs->base);
 		vals[found].reg = pcs->base + offset;
 		vals[found].val = val;
 
 		pin = pcs_get_pin_by_offset(pcs, offset);
 		if (pin < 0) {
-			dev_err(pcs->dev, "could not add functions for %s %ux func: %s\n", np->name, offset, __func__);
+			dev_err(pcs->dev, "could not add functions for %s %ux func: %s \n", np->name, offset, __func__);
 			break;
 		}
 		pins[found++] = pin;

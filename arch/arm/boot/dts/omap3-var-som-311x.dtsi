@@ -342,7 +342,7 @@
 	
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
-		interrupt-parent = <&gpio1>;
+		interrupt-parent = <&gpio3>;
 		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
 		reg = <4 0 0xff>;
 	};
