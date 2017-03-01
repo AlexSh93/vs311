@@ -1166,10 +1166,11 @@ static int pcs_parse_one_pinctrl_entry(struct pcs_device *pcs,
 		int pin;
 
 		offset = be32_to_cpup(mux + index++);
-		dev_notice(pcs->dev, "line: 1170 %s offset = %ux \n", np->name, offset);
+		/*dev_notice(pcs->dev, "line: 1170 %s offset = %ux; index = %ux\n", np->name, offset, index);*/
 		val = be32_to_cpup(mux + index++);
-		dev_notice(pcs->dev, "line: 1172 %s val = %ux \n", np->name, val);
-		dev_notice(pcs->dev, "line: 1173 %s pcs->base = %ux \n", np->name, pcs->base);
+		/*dev_notice(pcs->dev, "line: 1172 %s val = %ux; index = %ux \n", np->name, val, index);*/
+		/*dev_notice(pcs->dev, "line: 1173 %s pcs->base = %ux mux = %ux \n", np->name, pcs->base);*/
+
 		vals[found].reg = pcs->base + offset;
 		vals[found].val = val;
 
