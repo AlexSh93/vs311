@@ -2177,7 +2177,7 @@ static int smsc911x_init(struct net_device *dev)
 {
 	struct smsc911x_data *pdata = netdev_priv(dev);
 	unsigned int byte_test, mask;
-	unsigned int to = 100;
+	unsigned int to = 1000;
 
 	SMSC_TRACE(pdata, probe, "Driver Parameters:");
 	SMSC_TRACE(pdata, probe, "LAN base: 0x%08lX",
@@ -2213,7 +2213,7 @@ static int smsc911x_init(struct net_device *dev)
 		udelay(1000);
 
 	if (to == 0) {
-		netdev_err(dev, "Device not READY in 100ms aborting\n");
+		netdev_err(dev, "Device not READY in %ums aborting\n", to);
 		return -ENODEV;
 	}
 
