@@ -2213,7 +2213,7 @@ static int smsc911x_init(struct net_device *dev)
 		udelay(1000);
 
 	if (to == 0) {
-		netdev_err(dev, "Device not READY in %ums aborting\n", to);
+		netdev_err(dev, "Device not READY in 1000ms aborting\n");
 		return -ENODEV;
 	}
 

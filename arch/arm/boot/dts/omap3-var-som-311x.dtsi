@@ -114,7 +114,7 @@
 
 	smsc_pins1: pinmux_smsc_pins1 {
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x2116, PIN_OUTPUT | MUX_MODE4)		/* cam_fld.gpio_98 */
+			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT | MUX_MODE4)		/* cam_fld.gpio_98 */
 		>;
 	};
 	
