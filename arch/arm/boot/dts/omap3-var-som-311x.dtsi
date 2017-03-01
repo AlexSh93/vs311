@@ -269,7 +269,7 @@
 	};
 	
 	smsc2: ethernet@gpmc {
-		compatible = "smsc,lan9115";
+		compatible = "smsc,lan9118";
 		/**/
 		bank-width = <2>;
 		gpmc,device-width = <1>; 
