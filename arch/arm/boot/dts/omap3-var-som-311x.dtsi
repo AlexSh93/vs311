@@ -322,5 +322,5 @@
 		interrupt-parent = <&gpio1>;
 		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
 		reg = <4 0 0xff>;
-	};*/
+	};
 };
