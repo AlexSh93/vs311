@@ -272,7 +272,7 @@
 		compatible = "smsc,lan9118";
 		/**/
 		bank-width = <2>;
-		gpmc,device-width = <2>; 
+		gpmc,device-width = <1>; 
 		/*Общая ширина устройства (устройств), подключенного к консоли управления
 		чип-выберите в байтах. Консоль управления групповыми политиками поддерживает 8-битные
 		и 16-разрядные устройства и поэтому это свойство должно быть
@@ -282,7 +282,7 @@
 		gpmc,cycle2cycle-diffcsen = <1>;
 
 		/*GPMC_CONFIG2*/
-		gpmc,cs-on-ns = <5>; 				/*Assertion time*/
+		gpmc,cs-on-ns = <4>; 				/*Assertion time*/
 		gpmc,cs-rd-off-ns = <150>;  		/*Read deassertion time*/
 		gpmc,cs-wr-off-ns = <150>;  		/*Write deassertion time*/
 		/*GPMC_CONFIG3:*/
@@ -313,8 +313,8 @@
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
-		interrupt-parent = <&gpio5>;
-		interrupts = <33 IRQ_TYPE_LEVEL_LOW>; 
+		interrupt-parent = <&gpio1>;
+		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
 		reg = <4 0 0xff>;
 	};
 };
