@@ -108,7 +108,7 @@
 
 	smsc_pins: pinmux_smsc_pins {
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x20B4, PIN_OUTPUT | MUX_MODE0)	/* gpmc_ncs4.gpio_55 */
+			OMAP3_CORE1_IOPAD(0x20b6, PIN_OUTPUT | MUX_MODE0)	/* gpmc_ncs4.gpio_55 */
 		>;
 	};
 
@@ -218,7 +218,7 @@
 
 &gpmc {
 	ranges = <0 0 0x00000000 0x20000000>,/* CS0 */
-		 <4 0 0x2b000000 0x1000000>;	 /* CS4 */
+		 <4 0 0x2d000000 0x01000000>;	 /* CS4 */
 		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
@@ -242,7 +242,7 @@
 		gpmc,wr-access-ns = <40>;
 		gpmc,wr-data-mux-bus-ns = <0>;
 
-		#address-cells = <1>;
+		#address-cells = <2>;
 		#size-cells = <1>;
 
 		partition@0 {
@@ -289,6 +289,7 @@
 		Добавить "cycle2cycle задержку" между последовательными
 		осуществляет доступ к другим CS*/
 		/*GPMC_CONFIG2*/
+		gpmc,mux-add-data;
 		gpmc,cs-on-ns = <4>; 				/*Assertion time*/
 		gpmc,cs-rd-off-ns = <150>;  		/*Read deassertion time*/
 		gpmc,cs-wr-off-ns = <150>;  		/*Write deassertion time*/
@@ -319,6 +320,10 @@
 		время, когда первые данные толкнут
 		bus адресные данные.*/
 		gpmc,wr-access-ns = <0>;			
+
+		#address-cells = <2>;
+		#size-cells = <1>
+
 		/*In synchronous write mode, for single or
 		burst accesses, defines the number of
 		GPMC_FCLK cycles from start access time
