@@ -275,7 +275,7 @@
 		gpmc,device-width = <1>;
 		gpmc,cycle2cycle-samecsen = <1>;
 		gpmc,cycle2cycle-diffcsen = <1>;
-		gpmc,cs-on-ns = <4>;
+		gpmc,cs-on-ns = <5>;
 		gpmc,cs-rd-off-ns = <150>;
 		gpmc,cs-wr-off-ns = <150>;
 		gpmc,adv-on-ns = <0>;
@@ -298,7 +298,7 @@
 
 		vddvario-supply = <&vddvario>;
 		vdd33a-supply = <&vdd33a>;
-		
+
 		reg-io-width = <4>;
 		smsc,save-mac-address;
 
