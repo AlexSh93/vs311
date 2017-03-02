@@ -10,6 +10,15 @@
 #include "omap3-var-som-om3x-usb.dtsi"
 / 
 {
+
+	sound {
+		compatible = "ti,omap-twl4030";
+		ti,model = "var-som-om3x";
+
+		ti,mcbsp = <&mcbsp2>;
+		ti,codec = <&twl_audio>;
+	};
+
 	vddvario: regulator-vddvario {
 		compatible = "regulator-fixed";
 		regulator-name = "vddvario";
@@ -220,8 +229,8 @@
 };
 
 &gpmc {
-	ranges = <0 0 0x00000000 0x20000000>;/* CS0 */
-		/* <4 0 0x2b000000 0x1000000>;	 /* CS4 */
+	ranges = <0 0 0x00000000 0x20000000>,/* CS0 */
+		 <4 0 0x2b000000 0x1000000>;	 /* CS4 */
 		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
@@ -271,14 +280,14 @@
 		};
 	};
 	
-/*	smsc2: ethernet@gpmc {
+	smsc2: ethernet@gpmc {
 		compatible = "smsc,lan9118";
 		/**/
-/*		bank-width = <2>;
-		gpmc,device-width = <2>;
+		bank-width = <2>;
+		gpmc,device-width = <1>;
 		gpmc,cycle2cycle-samecsen = <1>;
 		gpmc,cycle2cycle-diffcsen = <1>;
-		gpmc,cs-on-ns = <5>;
+		gpmc,cs-on-ns = <4>;
 		gpmc,cs-rd-off-ns = <150>;
 		gpmc,cs-wr-off-ns = <150>;
 		gpmc,adv-on-ns = <0>;
@@ -301,7 +310,7 @@
 	
 		/*vddvario-supply = <&vddvario>;
 		vdd33a-supply = <&vdd33a>;*/
-	/*	vdd33a-supply = <&v2m_fixed_3v3>;
+		vdd33a-supply = <&v2m_fixed_3v3>;
 		vddvario-supply = <&v2m_fixed_3v3>;
 
 		reg-io-width = <4>;
