@@ -34,14 +34,14 @@
 		};
 	};
 	
-        backlight {
+      /*  backlight {
 		pinctrl-names = "default";
 		pinctrl-0 = <&backlight_pins>;
                 compatible = "gpio-backlight";
                 gpios = <&gpio2 23 GPIO_ACTIVE_LOW>;
                 default-on;
 		status = "okay";
-        };
+        };*/
 };
 
 &mmc1 {
