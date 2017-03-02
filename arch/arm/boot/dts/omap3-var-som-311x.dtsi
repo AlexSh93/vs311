@@ -8,15 +8,8 @@
  
 #include "omap36xx.dtsi"
 #include "omap3-var-som-om3x-usb.dtsi"
-/ {
-	sound {
-		compatible = "ti,omap-twl4030";
-		ti,model = "var-som-om3x";
-
-		ti,mcbsp = <&mcbsp2>;
-		ti,codec = <&twl_audio>;
-	};
-
+/ 
+{
 	vddvario: regulator-vddvario {
 		compatible = "regulator-fixed";
 		regulator-name = "vddvario";
@@ -30,6 +23,15 @@
                 enable-active-high;
 		regulator-always-on;
 	};
+
+	v2m_fixed_3v3: fixed-regulator-0 {
+	     compatible = "regulator-fixed";
+	     regulator-name = "3V3";
+	     regulator-min-microvolt = <3300000>;
+	     regulator-max-microvolt = <3300000>;
+	     regulator-always-on;
+	};
+ 
 };
 
 &omap3_pmx_core {
@@ -144,18 +146,6 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c1_pins>;
 	clock-frequency = <2600000>;
-
-	twl: twl@48 {
-		reg = <0x48>;
-		interrupts = <7>; /* SYS_NIRQ cascaded to intc */
-		interrupt-parent = <&intc>;
-
-		twl_audio: audio {
-			compatible = "ti,twl4030-audio";
-			codec {
-			};
-		};
-	};
 };
 
 #include "twl4030.dtsi"
@@ -218,7 +208,7 @@
 
 &gpmc {
 	ranges = <0 0 0x00000000 0x20000000>,/* CS0 */
-		 <4 0 0x2d000000 0x01000000>;	 /* CS4 */
+		 <4 0 0x2b000000 0x1000000>;	 /* CS4 */
 		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
@@ -272,71 +262,35 @@
 		compatible = "smsc,lan9118";
 		/**/
 		bank-width = <2>;
-		gpmc,device-width = <2>; 
-		/*Общая ширина устройства (устройств), подключенного к консоли управления
-		чип-выберите в байтах. Консоль управления групповыми политиками поддерживает 8-битные
-		и 16-разрядные устройства и поэтому это свойство должно быть
-		1 или 2.*/
-		gpmc,cycle2cycle-samecsen = <1>; 
-		/*Add "cycle2cycle-delay" between successive
-		accesses to the same CS
-		Добавить "cycle2cycle задержку" между последовательными
-		получает доступ к той же CS
-		*/
+		gpmc,device-width = <2>;
+		gpmc,cycle2cycle-samecsen = <1>;
 		gpmc,cycle2cycle-diffcsen = <1>;
-		/*Add "cycle2cycle-delay" between successive
-		accesses to a different CS
-		Добавить "cycle2cycle задержку" между последовательными
-		осуществляет доступ к другим CS*/
-		/*GPMC_CONFIG2*/
-		gpmc,mux-add-data;
-		gpmc,cs-on-ns = <4>; 				/*Assertion time*/
-		gpmc,cs-rd-off-ns = <150>;  		/*Read deassertion time*/
-		gpmc,cs-wr-off-ns = <150>;  		/*Write deassertion time*/
-		/*GPMC_CONFIG3:*/
-		gpmc,adv-on-ns = <0>; 				/*Assertion time*/
-		gpmc,adv-rd-off-ns = <15>;  		/*Read deassertion time*/
-		gpmc,adv-wr-off-ns = <40>;  		/*Write deassertion time*/
-		/*GPMC_CONFIG4*/
-		gpmc,oe-on-ns = <45>; 				/*Assertion time*/
-		gpmc,oe-off-ns = <140>; 			/*Deassertion time*/
-		/*GPMC_CONFIG4*/
-		gpmc,we-on-ns = <45>; 				/*Assertion time*/
-		gpmc,we-off-ns = <140>; 			/*Deassertion time*/
-		/*GPMC_CONFIG5*/
-		gpmc,rd-cycle-ns = <155>;			/*Total read cycle time */
-		gpmc,wr-cycle-ns = <155>;			/*Total write cycle time*/
-		gpmc,access-ns = <120>;				/*Start-cycle to first data valid delay*/
-		gpmc,page-burst-access-ns = <20>;	/*Multiple access word delay*/
-		gpmc,bus-turnaround-ns = <75>;		/*Turn-around time between successive accesses*/
-		gpmc,cycle2cycle-delay-ns = <75>;	/*Delay between chip-select pulses*/
-		gpmc,wait-monitoring-ns = <0>;		/*Start of wait monitoring with regard to valid data*/
-		gpmc,clk-activation-ns = <0>;		/*GPMC clock activation time*/
-		/*Boolean timing parameters. If property is present parameter enabled and disabled if omitted:*/
-		gpmc,wr-data-mux-bus-ns = <0>;		
-		/*In address-data multiplex mode, specifiesthe time when 
-		the first data is driven onthe address-data bus.
-		В режиме мультиплекса адреса данных, определяет
-		время, когда первые данные толкнут
-		bus адресные данные.*/
-		gpmc,wr-access-ns = <0>;			
+		gpmc,cs-on-ns = <5>;
+		gpmc,cs-rd-off-ns = <150>;
+		gpmc,cs-wr-off-ns = <150>;
+		gpmc,adv-on-ns = <0>;
+		gpmc,adv-rd-off-ns = <15>;
+		gpmc,adv-wr-off-ns = <40>;
+		gpmc,oe-on-ns = <45>;
+		gpmc,oe-off-ns = <140>;
+		gpmc,we-on-ns = <45>;
+		gpmc,we-off-ns = <140>;
+		gpmc,rd-cycle-ns = <155>;
+		gpmc,wr-cycle-ns = <155>;
+		gpmc,access-ns = <120>;
+		gpmc,page-burst-access-ns = <20>;
+		gpmc,bus-turnaround-ns = <75>;
+		gpmc,cycle2cycle-delay-ns = <75>;
+		gpmc,wait-monitoring-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-data-mux-bus-ns = <0>;
+		gpmc,wr-access-ns = <0>;
+	
+		/*vddvario-supply = <&vddvario>;
+		vdd33a-supply = <&vdd33a>;*/
+		vdd33a-supply = <&v2m_fixed_3v3>;
+		vddvario-supply = <&v2m_fixed_3v3>;
 
-		#address-cells = <2>;
-		#size-cells = <1>;
-
-		/*In synchronous write mode, for single or
-		burst accesses, defines the number of
-		GPMC_FCLK cycles from start access time
-		to the GPMC_CLK rising edge used by the
-		memory device for the first data capture.
-		В режиме синхронной записи, для одного или
-		взрыв получает доступ, определяет количество
-		GPMCPMC_FCLK циклов от времени доступа запуска
-		к переднему фронту GPMC_CLK используется самая
-		запоминающее устройство для первого сбора данных*/
-		vddvario-supply = <&vddvario>;
-
-		vdd33a-supply = <&vdd33a>;
 		reg-io-width = <4>;
 		smsc,save-mac-address;
 	
