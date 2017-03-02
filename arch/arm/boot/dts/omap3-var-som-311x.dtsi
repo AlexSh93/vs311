@@ -322,7 +322,7 @@
 		gpmc,wr-access-ns = <0>;			
 
 		#address-cells = <2>;
-		#size-cells = <1>
+		#size-cells = <1>;
 
 		/*In synchronous write mode, for single or
 		burst accesses, defines the number of
