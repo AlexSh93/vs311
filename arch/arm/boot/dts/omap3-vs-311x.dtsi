@@ -270,44 +270,35 @@
 	
 	smsc2: ethernet@gpmc {
 		compatible = "smsc,lan9118";
-		/**/
+		
 		bank-width = <2>;
-		gpmc,device-width = <1>; 
-		/*Общая ширина устройства (устройств), подключенного к консоли управления
-		чип-выберите в байтах. Консоль управления групповыми политиками поддерживает 8-битные
-		и 16-разрядные устройства и поэтому это свойство должно быть
-		1 или 2.*/
-		gpmc,cycle2cycle-samecsen = <1>; 
-
+		gpmc,device-width = <1>;
+		gpmc,cycle2cycle-samecsen = <1>;
 		gpmc,cycle2cycle-diffcsen = <1>;
+		gpmc,cs-on-ns = <4>;
+		gpmc,cs-rd-off-ns = <150>;
+		gpmc,cs-wr-off-ns = <150>;
+		gpmc,adv-on-ns = <0>;
+		gpmc,adv-rd-off-ns = <15>;
+		gpmc,adv-wr-off-ns = <40>;
+		gpmc,oe-on-ns = <45>;
+		gpmc,oe-off-ns = <140>;
+		gpmc,we-on-ns = <45>;
+		gpmc,we-off-ns = <140>;
+		gpmc,rd-cycle-ns = <155>;
+		gpmc,wr-cycle-ns = <155>;
+		gpmc,access-ns = <120>;
+		gpmc,page-burst-access-ns = <20>;
+		gpmc,bus-turnaround-ns = <75>;
+		gpmc,cycle2cycle-delay-ns = <75>;
+		gpmc,wait-monitoring-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-data-mux-bus-ns = <0>;
+		gpmc,wr-access-ns = <0>;
 
-		/*GPMC_CONFIG2*/
-		gpmc,cs-on-ns = <4>; 				/*Assertion time*/
-		gpmc,cs-rd-off-ns = <150>;  		/*Read deassertion time*/
-		gpmc,cs-wr-off-ns = <150>;  		/*Write deassertion time*/
-		/*GPMC_CONFIG3:*/
-		gpmc,adv-on-ns = <0>; 				/*Assertion time*/
-		gpmc,adv-rd-off-ns = <15>;  		/*Read deassertion time*/
-		gpmc,adv-wr-off-ns = <40>;  		/*Write deassertion time*/
-		/*GPMC_CONFIG4*/
-		gpmc,oe-on-ns = <45>; 				/*Assertion time*/
-		gpmc,oe-off-ns = <140>; 			/*Deassertion time*/
-		/*GPMC_CONFIG4*/
-		gpmc,we-on-ns = <45>; 				/*Assertion time*/
-		gpmc,we-off-ns = <140>; 			/*Deassertion time*/
-		/*GPMC_CONFIG5*/
-		gpmc,rd-cycle-ns = <155>;			/*Total read cycle time */
-		gpmc,wr-cycle-ns = <155>;			/*Total write cycle time*/
-		gpmc,access-ns = <120>;				/*Start-cycle to first data valid delay*/
-		gpmc,page-burst-access-ns = <20>;	/*Multiple access word delay*/
-		gpmc,bus-turnaround-ns = <75>;		/*Turn-around time between successive accesses*/
-		gpmc,cycle2cycle-delay-ns = <75>;	/*Delay between chip-select pulses*/
-		gpmc,wait-monitoring-ns = <0>;		/*Start of wait monitoring with regard to valid data*/
-		gpmc,clk-activation-ns = <0>;		/*GPMC clock activation time*/
-		gpmc,wr-data-mux-bus-ns = <0>;		
-		gpmc,wr-access-ns = <0>;			
 		vddvario-supply = <&vddvario>;
 		vdd33a-supply = <&vdd33a>;
+		
 		reg-io-width = <4>;
 		smsc,save-mac-address;
 
