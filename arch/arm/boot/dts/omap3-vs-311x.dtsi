@@ -218,7 +218,7 @@
 
 &gpmc {
 	ranges = <0 0 0x00000000 0x20000000>,/* CS0 */
-		 <4 0 0x2b000000 0x01000000>;	 /* CS4 */
+		 <4 0 0x2b000000 0x1000000>;	 /* CS4 */
 		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
@@ -272,7 +272,7 @@
 		compatible = "smsc,lan9118";
 		/**/
 		bank-width = <2>;
-		gpmc,device-width = <1>; 
+		gpmc,device-width = <2>; 
 		/*Общая ширина устройства (устройств), подключенного к консоли управления
 		чип-выберите в байтах. Консоль управления групповыми политиками поддерживает 8-битные
 		и 16-разрядные устройства и поэтому это свойство должно быть
@@ -313,8 +313,8 @@
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
+		interrupt-parent = <&gpio5>;
+		interrupts = <33 IRQ_TYPE_LEVEL_LOW>; 
 		reg = <4 0 0xff>;
 	};
 };
