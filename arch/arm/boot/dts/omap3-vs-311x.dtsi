@@ -36,24 +36,29 @@
 		>;
 	};
 
-	smsc_pins: pinmux_smsc_pins{
+	smsc_pins1: pinmux_smsc_pins1 {
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x20B6, PIN_OUTPUT_PULLUP | MUX_MODE0)		/* gpmc_ncs4.gpio_55 */
+			OMAP3_CORE1_IOPAD(0x2166, PIN_OUTPUT | MUX_MODE4)		/* mmc2_dat5.gpio_137 */
 		>;
 	};
 
-	smsc_pins1: pinmux_smsc_pins1  {
+	smsc_pins: pinmux_smsc_pins{
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT_PULLUP | MUX_MODE4)		/* uart1_rts.gpio_98 */
+			OMAP3_CORE1_IOPAD(0x20B6, PIN_OUTPUT | MUX_MODE0)		/* gpmc_ncs4.gpio_55 */
 		>;
 	};
 
 	smsc_pins2: pinmux_smsc_pins2 {
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x217e, PIN_INPUT_PULLDOWN | MUX_MODE4)		/* uart1_rts.gpio_149 */
+			OMAP3_CORE1_IOPAD(0x217e, /*PIN_INPUT_PULLDOWN*/PIN_INPUT_PULLUP | MUX_MODE4)		/* uart1_rts.gpio_149 */
 		>;
 	};
 
+	smsc_pins3: pinmux_smsc_pins3  {
+		pinctrl-single,pins = <
+			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT_PULLUP | MUX_MODE4)		/* uart1_rts.gpio_98 */
+		>;
+	};
 	mmc1_pins: pinmux_mmc1_pins {
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x2144, PIN_INPUT_PULLUP | MUX_MODE0)		/* sdmmc1_clk.sdmmc1_clk */
@@ -137,7 +142,7 @@
 	
 	smsc2: ethernet@gpmc {
 		compatible = "smsc,lan9118";
-		reg = <4 0 0xff>;
+		
 
 		bank-width = <2>;
 		gpmc,device-width = <1>;
@@ -174,9 +179,9 @@
 		/*phy-mode = "mii";*/
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
-		/*reset-gpios = <&gpio4 98 IRQ_TYPE_LEVEL_HIGH>;*/
+		reset-gpios = <&smsc_pins3>;
 		interrupt-parent = <&gpio1>;
-		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
-		smsc,irq-push-pull;
+		interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+		reg = <4 0 0xff>; 
 	};
 };
