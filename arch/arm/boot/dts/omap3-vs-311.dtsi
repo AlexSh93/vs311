@@ -8,7 +8,6 @@
  
 #include "omap3-vs-311x.dtsi"
 
-&uart2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart2_pins>;
+&uart1{
+	status = "disabled";
 };
