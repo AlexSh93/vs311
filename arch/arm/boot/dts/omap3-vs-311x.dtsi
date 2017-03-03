@@ -84,8 +84,9 @@
 };
 
 &gpmc {
-	ranges = <0 0 0x00000000 0x20000000>,	 /* CS0 */
-	 		 <4 0 0x2b000000 0x1000000>;	 /* CS4 */
+	ranges = <0 0 0x00000000 0x20000000>,	/*nCS0*/
+		 <4 0 0x2b000000 0x01000000>; 		/*nCS4*/
+		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
 		reg = <0 0 0>;
@@ -133,8 +134,8 @@
 			/* HACK: MTDPART_SIZ_FULL=0 so fill to end */
 		};
 	};
-
-	smsc2: ethernet@4,0 {
+	
+	smsc2: ethernet@gpmc {
 		compatible = "smsc,lan9118";
 		reg = <4 0 0xff>;
 
@@ -168,13 +169,14 @@
 
 		reg-io-width = <4>;
 		smsc,save-mac-address;
-		smsc,irq-push-pull;
 		
-		phy-mode = "mii";
+		
+		/*phy-mode = "mii";*/
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
-		reset-gpios = <&smsc_pins1>;
+		/*reset-gpios = <&gpio4 98 IRQ_TYPE_LEVEL_HIGH>;*/
 		interrupt-parent = <&gpio1>;
 		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
+		smsc,irq-push-pull;
 	};
 };

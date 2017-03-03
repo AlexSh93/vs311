@@ -33,13 +33,13 @@
 };
 
 
-&omap3_pmx_core2 {
+/*&omap3_pmx_core2 {
 	smsc_pins2: pinmux_smsc_pins2 {
 		pinctrl-single,pins = <
 			OMAP3630_CORE2_IOPAD(0x25fa, PIN_INPUT_PULLUP | MUX_MODE4)	/* etk_d15.gpio_29 */
-		>;
+/*		>;
 	};
-};
+};*/
 
 &omap3_pmx_core {
 	pinctrl-names = "default";
@@ -115,17 +115,36 @@
 		>;
 	};
 
-	smsc_pins: pinmux_smsc_pins {
+/*	smsc_pins: pinmux_smsc_pins {
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x20b8, PIN_OUTPUT | MUX_MODE0)		/* gpmc_ncs5.gpmc_ncs5 */
 		>;
-	};
+/*	};
 	smsc_pins1: pinmux_smsc_pins1 {
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x2166, PIN_OUTPUT | MUX_MODE4)		/* mmc2_dat5.gpio_137 */
+/*		>;
+	};*/
+	
+
+smsc_pins: pinmux_smsc_pins{
+		pinctrl-single,pins = <
+			OMAP3_CORE1_IOPAD(0x20B6, PIN_OUTPUT_PULLUP | MUX_MODE0)		/* gpmc_ncs4.gpio_55 */
 		>;
 	};
-	
+
+	smsc_pins1: pinmux_smsc_pins1  {
+		pinctrl-single,pins = <
+			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT_PULLUP | MUX_MODE4)		/* uart1_rts.gpio_98 */
+		>;
+	};
+
+	smsc_pins2: pinmux_smsc_pins2 {
+		pinctrl-single,pins = <
+			OMAP3_CORE1_IOPAD(0x217e, PIN_INPUT_PULLDOWN | MUX_MODE4)		/* uart1_rts.gpio_149 */
+		>;
+	};
+
 	mcspi1_pins: pinmux_mcspi1_pins {
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x21c8, PIN_INPUT | MUX_MODE0)	/* mcspi1_clk.mcspi1_clk */
@@ -220,7 +239,7 @@
 
 &gpmc {
 	ranges = <0 0 0x00000000 0x20000000>,
-		 <5 0 0x2c000000 0x01000000>; 
+		 <4 0 0x2b000000 0x01000000>; 
 		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
@@ -271,7 +290,9 @@
 	};
 	
 	smsc2: ethernet@gpmc {
-		compatible = "smsc,lan9221", "smsc,lan9115";
+		compatible = "smsc,lan9118";
+		reg = <4 0 0xff>;
+
 		bank-width = <2>;
 		gpmc,device-width = <1>;
 		gpmc,cycle2cycle-samecsen = <1>;
@@ -296,16 +317,20 @@
 		gpmc,clk-activation-ns = <0>;
 		gpmc,wr-data-mux-bus-ns = <0>;
 		gpmc,wr-access-ns = <0>;
+
 		vddvario-supply = <&vddvario>;
 		vdd33a-supply = <&vdd33a>;
+
 		reg-io-width = <4>;
 		smsc,save-mac-address;
-	
-	
+		
+		
+		phy-mode = "mii";
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
+	/*	reset-gpios = <&gpio4 98 IRQ_TYPE_LEVEL_HIGH>;*/
 		interrupt-parent = <&gpio1>;
 		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
-		reg = <5 0 0xff>;
+		smsc,irq-push-pull;
 	};
 };
