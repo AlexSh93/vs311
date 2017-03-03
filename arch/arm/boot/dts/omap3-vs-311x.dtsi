@@ -8,6 +8,10 @@
  
 #include "omap36xx.dtsi"
 
+&uart1{
+	status = "disabled";
+}
+
 &omap3_pmx_core {
 	pinctrl-names = "default";
 	pinctrl-0 = <&smsc_pins1>;
@@ -18,6 +22,12 @@
 			OMAP3_CORE1_IOPAD(0x216e, PIN_OUTPUT | MUX_MODE1)	/* mcbsp3_dr.uart2_rts */
 			OMAP3_CORE1_IOPAD(0x2170, PIN_OUTPUT | MUX_MODE1)	/* mcbsp3_clk.uart2_tx */
 			OMAP3_CORE1_IOPAD(0x2172, PIN_INPUT | MUX_MODE1)	/* mcbsp3_fsx.uart2_rx */
+		>;
+	};
+
+	pin_gpio149: pinmux_gpio149{
+		pinctrl-single,pins = <
+			OMAP3_CORE1_IOPAD(0x217e, PIN_OUTPUT | MUX_MODE4)		/* uart1_rts.gpio_149 */
 		>;
 	};
 
@@ -50,6 +60,7 @@
 	};
 	
 };
+
 
 
 &uart2 {
