@@ -85,7 +85,7 @@
 
 &gpmc {
 	ranges = <0 0 0x00000000 0x20000000>,	 /* CS0 */
-	 		 <4 0 0x2b000000 0x01000000>;	 /* CS4 */
+	 		 <4 0 0x2b000000 0x1000000>;	 /* CS4 */
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
 		reg = <0 0 0>;
@@ -134,44 +134,45 @@
 		};
 	};
 
-	smsc2: ethernet@gpmc {
-	compatible = "smsc,lan9118";
-	
-	bank-width = <2>;
-	gpmc,device-width = <1>;
-	gpmc,cycle2cycle-samecsen = <1>;
-	gpmc,cycle2cycle-diffcsen = <1>;
-	gpmc,cs-on-ns = <5>;
-	gpmc,cs-rd-off-ns = <150>;
-	gpmc,cs-wr-off-ns = <150>;
-	gpmc,adv-on-ns = <0>;
-	gpmc,adv-rd-off-ns = <15>;
-	gpmc,adv-wr-off-ns = <40>;
-	gpmc,oe-on-ns = <45>;
-	gpmc,oe-off-ns = <140>;
-	gpmc,we-on-ns = <45>;
-	gpmc,we-off-ns = <140>;
-	gpmc,rd-cycle-ns = <155>;
-	gpmc,wr-cycle-ns = <155>;
-	gpmc,access-ns = <120>;
-	gpmc,page-burst-access-ns = <20>;
-	gpmc,bus-turnaround-ns = <75>;
-	gpmc,cycle2cycle-delay-ns = <75>;
-	gpmc,wait-monitoring-ns = <0>;
-	gpmc,clk-activation-ns = <0>;
-	gpmc,wr-data-mux-bus-ns = <0>;
-	gpmc,wr-access-ns = <0>;
+	smsc: ethernet@4,0 {
+		compatible = "smsc,lan9118";
 
-	vddvario-supply = <&vddvario>;
-	vdd33a-supply = <&vdd33a>;
+		bank-width = <2>;
+		gpmc,device-width = <1>;
+		gpmc,cycle2cycle-samecsen = <1>;
+		gpmc,cycle2cycle-diffcsen = <1>;
+		gpmc,cs-on-ns = <5>;
+		gpmc,cs-rd-off-ns = <150>;
+		gpmc,cs-wr-off-ns = <150>;
+		gpmc,adv-on-ns = <0>;
+		gpmc,adv-rd-off-ns = <15>;
+		gpmc,adv-wr-off-ns = <40>;
+		gpmc,oe-on-ns = <45>;
+		gpmc,oe-off-ns = <140>;
+		gpmc,we-on-ns = <45>;
+		gpmc,we-off-ns = <140>;
+		gpmc,rd-cycle-ns = <155>;
+		gpmc,wr-cycle-ns = <155>;
+		gpmc,access-ns = <120>;
+		gpmc,page-burst-access-ns = <20>;
+		gpmc,bus-turnaround-ns = <75>;
+		gpmc,cycle2cycle-delay-ns = <75>;
+		gpmc,wait-monitoring-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-data-mux-bus-ns = <0>;
+		gpmc,wr-access-ns = <0>;
 
-	reg-io-width = <4>;
-	smsc,save-mac-address;
+		vddvario-supply = <&vddvario>;
+		vdd33a-supply = <&vdd33a>;
 
-	pinctrl-names = "default";
-	pinctrl-0 = <&smsc_pins &smsc_pins2 &smsc_pins1>;
-	interrupt-parent = <&gpio1>;
-	interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
-	reg = <4 0 0xff>;
-};
+		reg-io-width = <4>;
+		smsc,save-mac-address;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&smsc_pins &smsc_pins2>;
+		pinctrl-1 = <&smsc_pins1>;
+		interrupt-parent = <&gpio5>;
+		interrupts = <33 IRQ_TYPE_LEVEL_LOW>; 
+		reg = <4 0 0xff>;
+	};
 };
