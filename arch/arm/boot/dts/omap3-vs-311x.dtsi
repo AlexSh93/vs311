@@ -134,8 +134,9 @@
 		};
 	};
 
-	smsc: ethernet@4,0 {
+	smsc2: ethernet@4,0 {
 		compatible = "smsc,lan9118";
+		reg = <4 0 0xff>;
 
 		bank-width = <2>;
 		gpmc,device-width = <1>;
@@ -167,12 +168,13 @@
 
 		reg-io-width = <4>;
 		smsc,save-mac-address;
-
+		smsc,irq-push-pull;
+		
+		phy-mode = "mii";
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
-		pinctrl-1 = <&smsc_pins1>;
-		interrupt-parent = <&gpio5>;
-		interrupts = <33 IRQ_TYPE_LEVEL_LOW>; 
-		reg = <4 0 0xff>;
+		reset-gpios = <&smsc_pins1>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
 	};
 };
