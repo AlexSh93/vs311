@@ -23,7 +23,7 @@
 
 	pin_gpio149: pinmux_gpio149{
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x217e, PIN_OUTPUT | MUX_MODE4)		/* uart1_rts.gpio_149 */
+			OMAP3_CORE1_IOPAD(0x217e, PIN_INPUT_PULLDOWN | MUX_MODE4)		/* uart1_rts.gpio_149 */
 		>;
 	};
 

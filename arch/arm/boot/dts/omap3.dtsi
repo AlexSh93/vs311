@@ -273,7 +273,7 @@
 			ti,hwmods = "uart1";
 			clock-frequency = <48000000>;
 		};
-
+	
 		uart2: serial@4806c000 {
 			compatible = "ti,omap3-uart";
 			reg = <0x4806c000 0x400>;
