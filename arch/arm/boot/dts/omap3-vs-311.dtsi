@@ -44,14 +44,14 @@
         };*/
 };
 
-&mmc1 {
+/*&mmc1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&mmc1_pins>;
 	vmmc-supply = <&vmmc1>;
 	bus-width = <4>;
 	cd-gpios = <&twl_gpio 0 0>;
 };
-
+*/
 &dss {
 	status = "ok";
 
