@@ -139,7 +139,7 @@
 		>;
 	};
 
-	smsc_pins3: pinmux_smsc_pins1  {
+	smsc_pins1: pinmux_smsc_pins1  {
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT_PULLUP | MUX_MODE4)		/* uart1_rts.gpio_98 */
 		>;
