@@ -26,8 +26,8 @@
 	vdd33a: regulator-vdd33a {
 		compatible = "regulator-fixed";
 		regulator-name = "vdd33a";
-                gpio = <&gpio5 9 0>;
-                enable-active-high;
+        gpio = <&gpio5 9 0>;
+        enable-active-high;
 		regulator-always-on;
 	};
 };
@@ -129,13 +129,7 @@
 	
 	smsc_pins: pinmux_smsc_pins{
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x20B6, PIN_OUTPUT | MUX_MODE0)		/* gpmc_ncs4.gpio_55 [31:16] старший со сдвигом */
-		>;
-	};
-
-	smsc_pins2: pinmux_smsc_pins2 {
-		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x217e, /*PIN_INPUT_PULLDOWN*/PIN_INPUT_PULLDOWN | MUX_MODE4)		/* uart1_rts.gpio_149 [31:16] старший со сдвигом */
+			OMAP3_CORE1_IOPAD(0x20B4, PIN_OUTPUT | MUX_MODE0)		/* gpmc_ncs4.gpio_55  */
 		>;
 	};
 
@@ -144,6 +138,14 @@
 			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT_PULLUP | MUX_MODE4)		/* uart1_rts.gpio_98 */
 		>;
 	};
+
+	smsc_pins2: pinmux_smsc_pins2 {
+		pinctrl-single,pins = <
+			OMAP3_CORE1_IOPAD(0x217e, PIN_INPUT_PULLDOWN | MUX_MODE4)		/* uart1_rts.gpio_149 [31:16] */
+		>;
+	};
+
+	
 
 	mcspi1_pins: pinmux_mcspi1_pins {
 		pinctrl-single,pins = <
@@ -239,7 +241,7 @@
 
 &gpmc {
 	ranges = <0 0 0x00000000 0x20000000>,
-		 <4 0 0x2b000000 0x01000000>; 
+		 <4 0 0x2b000000 0x1000000>; 
 		 
 	nand@0,0 {
 		linux,mtd-name= "micron,mt29c4g96maz";
@@ -290,12 +292,12 @@
 	};
 	
 	smsc2: ethernet@gpmc {
-		compatible = "smsc,lan9221", "smsc,lan9118";
+		compatible = "smsc,lan9118";
 		bank-width = <2>;
 		gpmc,device-width = <1>;
 		gpmc,cycle2cycle-samecsen = <1>;
 		gpmc,cycle2cycle-diffcsen = <1>;
-		gpmc,cs-on-ns = <5>;
+		gpmc,cs-on-ns = <4>;
 		gpmc,cs-rd-off-ns = <150>;
 		gpmc,cs-wr-off-ns = <150>;
 		gpmc,adv-on-ns = <0>;
