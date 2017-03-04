@@ -101,10 +101,10 @@
 		>;
 	};
 		
-	backlight_pins: pinmux_backlight_pins {
+	/*backlight_pins: pinmux_backlight_pins {
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x20B6, PIN_OUTPUT | MUX_MODE4)	/* gpmc_ncs4.gpio_55 */
-		>;
-	};
+	/*	>;
+	};*/
 };
  

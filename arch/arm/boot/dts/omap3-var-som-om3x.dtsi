@@ -144,23 +144,8 @@
 			OMAP3_CORE1_IOPAD(0x217e, PIN_INPUT_PULLDOWN | MUX_MODE4)		/* uart1_rts.gpio_149 [31:16] */
 	/*	>;
 	};*/
-	smsc_pins: pinmux_smsc_pins {
-		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x20B4, PIN_OUTPUT | MUX_MODE0)	/* gpmc_ncs4.gpio_55 */
-		>;
-	};
 
-	smsc_pins1: pinmux_smsc_pins1 {
-		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT_PULLUP | MUX_MODE4)		/* cam_fld.gpio_98 */
-		>;
-	};
 	
-	smsc_pins2: pinmux_smsc_pins2 {
-		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x217e, PIN_INPUT_PULLDOWN | MUX_MODE4)	     /* uart1_rts.gpio_149 */
-		>;
-	};
 	
 
 	mcspi1_pins: pinmux_mcspi1_pins {
