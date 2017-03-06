@@ -65,9 +65,9 @@
 	};
 };
 
-/*&uart1{
+&uart1{
 status = "disabled";
-};*/
+};
 
 &omap3_pmx_core {	
 	dss_dpi_pins: pinmux_dss_dpi_pins {
