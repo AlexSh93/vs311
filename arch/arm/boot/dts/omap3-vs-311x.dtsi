@@ -114,7 +114,7 @@
 
 	smsc_pins1: pinmux_smsc_pins1 {
 		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x2114, PIN_INPUT_PULLUP | MUX_MODE4)		/* cam_fld.gpio_98 */
+			OMAP3_CORE1_IOPAD(0x2114, PIN_OUTPUT_PULLUP | MUX_MODE4)		/* cam_fld.gpio_98 */
 		>;
 	};
 	
@@ -346,8 +346,8 @@
 	
 		pinctrl-names = "default";
 		pinctrl-0 = <&smsc_pins &smsc_pins2>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <29 IRQ_TYPE_LEVEL_LOW>; 
+		interrupt-parent = <&gpio5>;
+		interrupts = <33 IRQ_TYPE_LEVEL_LOW>; 
 		reg = <4 0 0xff>;
 	};
 };
