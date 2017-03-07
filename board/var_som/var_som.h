@@ -26,10 +26,11 @@ const omap3_sysinfo sysinfo = {
 #define MUX_VAR_SOM() \
   /*GPMC*/\
 	MUX_VAL(CP(GPMC_NCS1),		(IDIS | PTU | EN  | M0)) /*GPMC_nCS1*/\
-	MUX_VAL(CP(GPMC_NCS4),		(IDIS | PTD | EN  | M4)) /*GPIO_55*/\
-	MUX_VAL(CP(GPMC_NCS5),		(IDIS | PTU | EN  | M0)) /*GPMC_nCS5*/\
+	MUX_VAL(CP(GPMC_NCS4),		(IDIS | PTU | EN  | M0)) /*GPMC_nCS4*/\
+	MUX_VAL(CP(GPMC_NCS5),		(IDIS | PTD | EN  | M0)) /*GPMC_nCS5*/\
 	MUX_VAL(CP(GPMC_NCS6),		(IEN  | PTD | DIS | M0)) /*GPMC_nCS6*/\
 	MUX_VAL(CP(GPMC_WAIT1),		(IEN  | PTU | EN  | M4)) /*GPIO_63*/\
+ 	MUX_VAL(CP(CAM_FLD),		(EN | PTU | SB_HI | M4)) /*GPIO_98*/\
  /*Serial Interface*/\
 	MUX_VAL(CP(UART3_CTS_RCTX),	(IEN  | PTD | EN  | M0)) /*UART3_CTS_RCTX*/\
 	MUX_VAL(CP(HDQ_SIO),		(IDIS | PTU | EN  | M4)) /*HDQ_SIO*/\

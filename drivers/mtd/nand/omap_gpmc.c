@@ -664,7 +664,7 @@ static int omap_correct_data_bch_sw(struct mtd_info *mtd, u_char *data,
 			if (errloc[i] < 8*512)
 				data[errloc[i]/8] ^= 1 << (errloc[i] & 7);
 			printf("corrected bitflip %u\n", errloc[i]);
-#ifdef DEBUG
+/*#ifdef DEBUG*/
 			puts("read_ecc: ");
 			/*
 			 * BCH8 have 13 bytes of ECC; BCH4 needs adoption
@@ -677,7 +677,7 @@ static int omap_correct_data_bch_sw(struct mtd_info *mtd, u_char *data,
 			for (i = 0; i < 13; i++)
 				printf("%02x ", calc_ecc[i]);
 			puts("\n");
-#endif
+/*#endif*/
 		}
 	} else if (count < 0) {
 		puts("ecc unrecoverable error\n");

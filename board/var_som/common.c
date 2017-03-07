@@ -29,6 +29,24 @@ DECLARE_GLOBAL_DATA_PTR;
  */
 int board_init(void)
 {
+	if (!gpio_request(150, "")) {
+		gpio_direction_output(150, 1);
+		gpio_set_value(150, 1);
+		printf("WatchDog init\n");
+	}
+	else {
+		printf("WatchDog not init\n");
+	}
+
+	if (!gpio_request(98, "")) {
+		gpio_direction_output(98, 1);
+		gpio_set_value(98, 1);
+		printf("98 pin SMSC-reset init\n");
+	}
+	else {
+		printf("98 pin SMSC-reset not init\n");
+	}
+	
 	gpmc_init(); /* in SRAM or SDRAM, finish GPMC */
 	/* board id for Linux */
 	gd->bd->bi_arch_number = 1798;
@@ -169,7 +187,8 @@ int board_init(void)
 	MUX_VAL(CP(MCBSP3_DR),		(IDIS | PTD | DIS | M1)) /*UART2_RTS*/\
 	MUX_VAL(CP(MCBSP3_CLKX),	(IDIS | PTD | DIS | M1)) /*UART2_TX*/\
 	MUX_VAL(CP(MCBSP3_FSX),		(IEN  | PTD | DIS | M1)) /*UART2_RX*/\
-	MUX_VAL(CP(UART1_RTS),		(IEN  | PTU | DIS | M4)) /*GPIO_149*/ \
+	MUX_VAL(CP(UART1_RTS),		(IEN  | PTD | EN | M4)) /*GPIO_149*/ \
+	MUX_VAL(CP(UART1_CTS),		(IEN  | PTU | EN | M4)) /*GPIO_150*/ \
 	MUX_VAL(CP(MCBSP4_CLKX),	(IEN  | PTD | DIS | M0)) /*McBSP4_CLKX*/\
 	MUX_VAL(CP(MCBSP4_DR),		(IEN  | PTD | DIS | M0)) /*McBSP4_DR*/\
 	MUX_VAL(CP(MCBSP4_DX),		(IEN  | PTD | DIS | M0)) /*McBSP4_DX*/\
@@ -300,8 +319,7 @@ int board_init(void)
 	MUX_VAL(CP(D2D_MBUSFLAG),	(IEN  | PTD | DIS | M0)) /*d2d_mbusflag*/\
 	MUX_VAL(CP(D2D_SBUSFLAG),	(IEN  | PTD | DIS | M0)) /*d2d_sbusflag*/\
 	MUX_VAL(CP(SDRC_CKE0),		(IDIS | PTU | EN  | M0)) /*sdrc_cke0*/\
-	MUX_VAL(CP(SDRC_CKE1),		(IDIS | PTU | EN  | M0)) /*sdrc_cke1*/
-
+	MUX_VAL(CP(SDRC_CKE1),		(IDIS | PTU | EN  | M0)) /*sdrc_cke1*/\
 /*
  * Routine: set_muxconf_regs
  * Description: Setting up the configuration Mux registers specific to the

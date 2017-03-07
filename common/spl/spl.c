@@ -18,6 +18,7 @@
 #include <malloc.h>
 #include <dm/root.h>
 #include <linux/compiler.h>
+#include <asm/gpio.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -48,8 +49,16 @@ static bd_t bdata __attribute__ ((section(".data")));
 #ifdef CONFIG_SPL_OS_BOOT
 __weak int spl_start_uboot(void)
 {
-	puts("SPL: Please implement spl_start_uboot() for your board\n");
-	puts("SPL: Direct Linux boot not active!\n");
+
+	if (!gpio_request(150, "")) {
+		gpio_direction_output(150, 1);
+		gpio_set_value(150, 1);
+		printf("WatchDog init\n");
+	}
+	else {
+		printf("WatchDog not init\n");
+	}
+
 	return 1;
 }
 #endif
@@ -301,7 +310,7 @@ void preloader_console_init(void)
 
 	gd->have_console = 1;
 
-	puts("\nU-Boot SPL " PLAIN_VERSION " (" U_BOOT_DATE " - " \
+	puts("\nU-Boot SPL by Visom Ltd " PLAIN_VERSION " (" U_BOOT_DATE " - " \
 			U_BOOT_TIME ")\n");
 #ifdef CONFIG_SPL_DISPLAY_PRINT
 	spl_display_print();
