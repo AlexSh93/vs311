@@ -9,13 +9,6 @@
 #include "omap36xx.dtsi"
 #include "omap3-var-som-om3x-usb.dtsi"
 / {
-	sound {
-		compatible = "ti,omap-twl4030";
-		ti,model = "var-som-om3x";
-
-		ti,mcbsp = <&mcbsp2>;
-		ti,codec = <&twl_audio>;
-	};
 
 	vddvario: regulator-vddvario {
 		compatible = "regulator-fixed";
@@ -49,6 +42,13 @@
 		pinctrl-single,pins = <
 			OMAP3_CORE1_IOPAD(0x21ba, PIN_INPUT | MUX_MODE0)		/* i2c1_scl.i2c1_scl */
 			OMAP3_CORE1_IOPAD(0x21bc, PIN_INPUT | MUX_MODE0)		/* i2c1_sda.i2c1_sda */
+		>;
+	};
+
+	i2c2_pins: pinmux_i2c2_pins {
+		pinctrl-single,pins = <
+			OMAP3_CORE1_IOPAD(0x21be, PIN_INPUT | MUX_MODE0)		/* i2c2_scl.i2c2_scl */
+			OMAP3_CORE1_IOPAD(0x21c0, PIN_INPUT | MUX_MODE0)		/* i2c2_sda.i2c2_sda */
 		>;
 	};
 
@@ -133,11 +133,6 @@
 		>;
 	};
 	
-	ads7846_pins: pinmux_ads7846_pins {
-		pinctrl-single,pins = <
-			OMAP3_CORE1_IOPAD(0x21d4, PIN_INPUT_PULLDOWN | MUX_MODE4)	/* mcspi1_cs3.gpio_177 */
-		>;
-	};
 };
 
 &i2c1 {
@@ -161,40 +156,6 @@
 #include "twl4030.dtsi"
 #include "twl4030_omap3.dtsi"
 
-&mcspi1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&mcspi1_pins>;
-
-	/* touch controller */
-	ads7846@0 {
-		pinctrl-names = "default";
-		pinctrl-0 = <&ads7846_pins>;
-
-		compatible = "ti,ads7846";
-		vcc-supply = <&vdd33a>;
-
-		reg = <0>;				/* CS0 */
-		spi-max-frequency = <1500000>;
-
-		interrupt-parent = <&gpio6>;
-		interrupts = <17 0>;			/* gpio_177 */
-		pendown-gpio = <&gpio6 17 0>;
-
-		ti,x-min = /bits/ 16 <0x0>;
-		ti,x-max = /bits/ 16 <0x0fff>;
-		ti,y-min = /bits/ 16 <0x0>;
-		ti,y-max = /bits/ 16 <0x0fff>;
-		ti,x-plate-ohms = /bits/ 16 <180>;
-		ti,pressure-max = /bits/ 16 <255>;
-
-		linux,wakeup;
-	};
-};
-
-/* i2c2 pins are NC */
-&i2c2 {
-	status = "disabled";
-};
 
 &usb_otg_hs {
 	pinctrl-names = "default";
