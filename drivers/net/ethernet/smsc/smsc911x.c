@@ -2254,6 +2254,7 @@ static int smsc911x_init(struct net_device *dev)
 	case 0x01160000:
 	case 0x01150000:
 	case 0x218A0000:
+	case 0x93110001:
 		/* LAN911[5678] family */
 		pdata->generation = pdata->idrev & 0x0000FFFF;
 		break;
