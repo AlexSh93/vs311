@@ -494,7 +494,7 @@ static struct fixed_voltage_config var_som_om44_vwlan = {
 	.init_data              = &var_som_om44_vmmc2,
 };
 
-static struct platform_device omap3evm_wlan_regulator = {
+/*static struct platform_device omap3evm_wlan_regulator = {
 	.name           = "reg-fixed-voltage",
 	.id             = 1,
 	.dev = {
@@ -504,8 +504,8 @@ static struct platform_device omap3evm_wlan_regulator = {
 
 struct wl12xx_platform_data omap3evm_wlan_data __initdata = {
 	.irq = OMAP_GPIO_IRQ(VAR_SOM_OM3X_WLAN_IRQ_GPIO),
-	.board_ref_clock = WL12XX_REFCLOCK_26, /* 26 MHz */
-};
+	.board_ref_clock = WL12XX_REFCLOCK_26,  //26 MHz 
+};*/
 
 static struct twl4030_platform_data VAR_SOM_OM3X_twldata = {
 	.irq_base	= TWL4030_IRQ_BASE,
@@ -597,6 +597,16 @@ static struct spi_board_info VAR_SOM_OM3X_spi_board_info[] = {
 };
 #endif /* CONFIG_TOUCHSCREEN_ADS7846 */
 #endif /* CONFIG_INPUT_TOUCHSCREEN */
+
+static struct spi_board_info mcspi_board_info[] = {
+	// spi 4.0
+	{
+		.modalias	= "spidev",
+		.max_speed_hz	= 48000000, //48 Mbps
+		.bus_num	= 2,
+		.chip_select	= 0,
+	},
+};
 
 static struct omap_board_config_kernel VAR_SOM_OM3X_config[] __initdata = {
 };
@@ -697,31 +707,31 @@ static struct mtd_partition VAR_SOM_OM3X_nand_partitions[] = {
 #ifdef CONFIG_OMAP_MUX
 static struct omap_board_mux board_mux[] __initdata = {
 #ifdef CONFIG_KEYBOARD_TWL4030
-	OMAP3_MUX(SYS_NIRQ, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP |
+	/*OMAP3_MUX(SYS_NIRQ, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP |
 				OMAP_PIN_OFF_INPUT_PULLUP | OMAP_PIN_OFF_OUTPUT_LOW |
-				OMAP_PIN_OFF_WAKEUPENABLE),
+				OMAP_PIN_OFF_WAKEUPENABLE),*/
 #endif
 #ifdef CONFIG_WL12XX_PLATFORM_DATA
 	/* WLAN IRQ - GPIO 25 */
-	OMAP3_MUX(ETK_D11, OMAP_MUX_MODE4 | OMAP_PIN_INPUT),
+	//OMAP3_MUX(ETK_D11, OMAP_MUX_MODE4 | OMAP_PIN_INPUT),
 
 	/* WLAN POWER ENABLE - GPIO 11 */
-	OMAP3_MUX(JTAG_EMU0, OMAP_MUX_MODE4 | OMAP_PIN_OUTPUT),
+	//OMAP3_MUX(JTAG_EMU0, OMAP_MUX_MODE4 | OMAP_PIN_OUTPUT),
 
 	/* MMC2 SDIO pin muxes for WL12xx */
-	OMAP3_MUX(SDMMC2_CLK, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),
+	/*OMAP3_MUX(SDMMC2_CLK, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),
 	OMAP3_MUX(SDMMC2_CMD, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),
 	OMAP3_MUX(SDMMC2_DAT0, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),
 	OMAP3_MUX(SDMMC2_DAT1, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),
 	OMAP3_MUX(SDMMC2_DAT2, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),
-	OMAP3_MUX(SDMMC2_DAT3, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),
+	OMAP3_MUX(SDMMC2_DAT3, OMAP_MUX_MODE0 | OMAP_PIN_INPUT_PULLUP),*/
 #endif
 #ifdef CONFIG_INPUT_TOUCHSCREEN
 #ifdef CONFIG_TOUCHSCREEN_ADS7846
-	OMAP3_MUX(MCSPI1_CS1, OMAP_MUX_MODE4 | OMAP_PIN_INPUT_PULLUP |
+	/*OMAP3_MUX(MCSPI1_CS1, OMAP_MUX_MODE4 | OMAP_PIN_INPUT_PULLUP |
 				OMAP_PIN_OFF_INPUT_PULLUP | OMAP_PIN_OFF_OUTPUT_LOW |
 				OMAP_PIN_OFF_WAKEUPENABLE),
-	OMAP3_MUX(MCSPI1_CS3, OMAP_MUX_MODE4 | OMAP_PIN_INPUT),                 /* GPIO177, default touchscreen pendown */
+	OMAP3_MUX(MCSPI1_CS3, OMAP_MUX_MODE4 | OMAP_PIN_INPUT),  */               /* GPIO177, default touchscreen pendown */
 #endif
 #endif
 	OMAP3_MUX(ETK_D10, OMAP_MUX_MODE4 | OMAP_PIN_OUTPUT),			/* GPIO24, USB */
@@ -747,6 +757,13 @@ static struct omap_board_mux board_mux[] __initdata = {
 
 	/* KEY_INT */
 	OMAP3_MUX(CAM_D1, OMAP_MUX_MODE4 | OMAP_PIN_INPUT),
+	/* ADC_SYNC */
+	OMAP3_MUX(CAM_D11, OMAP_MUX_MODE4 | OMAP_PIN_OUTPUT),
+	/* McSPI2 */
+	OMAP3_MUX(MCSPI2_SIMO, OMAP_MUX_MODE0 | OMAP_PIN_OUTPUT ),
+	OMAP3_MUX(MCSPI2_CS0, OMAP_MUX_MODE0 | OMAP_PIN_INPUT | OMAP_PULL_ENA |OMAP_PULL_UP ),
+	OMAP3_MUX(MCSPI2_CLK, OMAP_MUX_MODE0 | OMAP_PIN_INPUT ),
+	
 
 	{ .reg_offset = OMAP_MUX_TERMINATOR },
 };
@@ -794,6 +811,10 @@ static void __init VAR_SOM_OM3X_init(void)
 
 	platform_add_devices(VAR_SOM_OM3X_devices, ARRAY_SIZE(VAR_SOM_OM3X_devices));
 
+	/* SPI */
+	spi_register_board_info( mcspi_board_info,
+		ARRAY_SIZE( mcspi_board_info ));
+
 #ifdef CONFIG_INPUT_TOUCHSCREEN
 #ifdef CONFIG_TOUCHSCREEN_ADS7846
 	spi_register_board_info(VAR_SOM_OM3X_spi_board_info,
@@ -810,7 +831,7 @@ static void __init VAR_SOM_OM3X_init(void)
 	usb_ehci_init(&ehci_pdata);
 #ifdef CONFIG_INPUT_TOUCHSCREEN
 #ifdef CONFIG_TOUCHSCREEN_ADS7846
-	ads7846_dev_init();
+	//ads7846_dev_init();
 #endif
 #endif
 	VAR_SOM_OM3X_init_smsc911x();
@@ -824,16 +845,6 @@ static void __init VAR_SOM_OM3X_init(void)
 	board_nand_init(VAR_SOM_OM3X_nand_partitions,
 			ARRAY_SIZE(VAR_SOM_OM3X_nand_partitions),
 			0, NAND_BUSWIDTH_16);
-
-#ifdef CONFIG_WL12XX_PLATFORM_DATA
-	/* WL12xx WLAN Init */
-	if (wl12xx_set_platform_data(&omap3evm_wlan_data))
-		pr_err("error setting wl12xx data\n");
-	platform_device_register(&omap3evm_wlan_regulator);
-#endif
-#ifdef CONFIG_SND_SOC_WL1271BT
-	wl1271bt_clk_setup();
-#endif
 }
 
 MACHINE_START(OMAP3EVM, "VARISCITE VAR-SOM-OM3X")
