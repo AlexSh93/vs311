@@ -92,6 +92,7 @@ static void omap_mcbsp_dump_reg(u8 id)
 	struct omap_mcbsp *mcbsp = id_to_mcbsp_ptr(id);
 
 	dev_dbg(mcbsp->dev, "**** McBSP%d regs ****\n", mcbsp->id);
+
 	dev_dbg(mcbsp->dev, "DRR2:  0x%04x\n",
 			MCBSP_READ(mcbsp, DRR2));
 	dev_dbg(mcbsp->dev, "DRR1:  0x%04x\n",
@@ -119,6 +120,47 @@ static void omap_mcbsp_dump_reg(u8 id)
 	dev_dbg(mcbsp->dev, "PCR0:  0x%04x\n",
 			MCBSP_READ(mcbsp, PCR0));
 	dev_dbg(mcbsp->dev, "***********************\n");
+}
+
+void my_omap_mcbsp_dump_reg(u8 id)
+{
+	struct omap_mcbsp *mcbsp = id_to_mcbsp_ptr(id);
+
+	printk(KERN_INFO "**** McBSP%d regs ****\n", mcbsp->id);
+
+	printk(KERN_INFO "DRR:  0x%08x\n",
+			MCBSP_READ(mcbsp, DRR));
+	printk(KERN_INFO "DRR2:  0x%04x\n",
+			MCBSP_READ(mcbsp, DRR2));
+	printk(KERN_INFO "DRR1:  0x%04x\n",
+			MCBSP_READ(mcbsp, DRR1));
+	printk(KERN_INFO "DXR2:  0x%04x\n",
+			MCBSP_READ(mcbsp, DXR2));
+	printk(KERN_INFO "DXR1:  0x%04x\n",
+			MCBSP_READ(mcbsp, DXR1));
+	printk(KERN_INFO "SPCR2: 0x%04x\n",
+			MCBSP_READ(mcbsp, SPCR2));
+	printk(KERN_INFO "SPCR1: 0x%04x\n",
+			MCBSP_READ(mcbsp, SPCR1));
+	printk(KERN_INFO  "RCR2:  0x%04x\n",
+			MCBSP_READ(mcbsp, RCR2));
+	printk(KERN_INFO "RCR1:  0x%04x\n",
+			MCBSP_READ(mcbsp, RCR1));
+	printk(KERN_INFO "XCR2:  0x%04x\n",
+			MCBSP_READ(mcbsp, XCR2));
+	printk(KERN_INFO "XCR1:  0x%04x\n",
+			MCBSP_READ(mcbsp, XCR1));
+	printk(KERN_INFO "SRGR2: 0x%04x\n",
+			MCBSP_READ(mcbsp, SRGR2));
+	printk(KERN_INFO "SRGR1: 0x%04x\n",
+			MCBSP_READ(mcbsp, SRGR1));
+	printk(KERN_INFO "PCR0:  0x%04x\n",
+			MCBSP_READ(mcbsp, PCR0));
+	printk(KERN_INFO "IRQST:  0x%04x\n",
+			MCBSP_READ(mcbsp, IRQST));
+	printk(KERN_INFO "IRQEN:  0x%04x\n",
+			MCBSP_READ(mcbsp, IRQEN));
+	printk(KERN_INFO, "***********************\n");
 }
 
 static irqreturn_t omap_mcbsp_tx_irq_handler(int irq, void *dev_id)
@@ -224,6 +266,7 @@ void omap_mcbsp_config(unsigned int id, const struct omap_mcbsp_reg_cfg *config)
 		MCBSP_WRITE(mcbsp, XCCR, config->xccr);
 		MCBSP_WRITE(mcbsp, RCCR, config->rccr);
 	}
+	my_omap_mcbsp_dump_reg(OMAP_MCBSP1);
 }
 EXPORT_SYMBOL(omap_mcbsp_config);
 
@@ -768,7 +811,7 @@ int omap_mcbsp_request(unsigned int id)
 	clk_enable(mcbsp->fclk);
 
 	/* Do procedure specific to omap34xx arch, if applicable */
-	omap34xx_mcbsp_request(mcbsp);
+	//omap34xx_mcbsp_request(mcbsp);
 
 	/*
 	 * Make sure that transmitter, receiver and sample-rate generator are
@@ -794,6 +837,9 @@ int omap_mcbsp_request(unsigned int id)
 			err = request_irq(mcbsp->rx_irq,
 					omap_mcbsp_rx_irq_handler,
 					0, "McBSP", (void *)mcbsp);
+
+			printk(KERN_INFO "RX IRQ is requested!");
+
 			if (err != 0) {
 				dev_err(mcbsp->dev, "Unable to request RX IRQ %d "
 						"for McBSP%d\n", mcbsp->rx_irq,
@@ -1002,6 +1048,9 @@ int omap_mcbsp_pollwrite(unsigned int id, u16 buf)
 	mcbsp = id_to_mcbsp_ptr(id);
 
 	MCBSP_WRITE(mcbsp, DXR1, buf);
+
+	my_omap_mcbsp_dump_reg(OMAP_MCBSP1);
+
 	/* if frame sync error - clear the error */
 	if (MCBSP_READ(mcbsp, SPCR2) & XSYNC_ERR) {
 		/* clear error */
@@ -1023,6 +1072,9 @@ int omap_mcbsp_pollwrite(unsigned int id, u16 buf)
 				udelay(10);
 				dev_err(mcbsp->dev, "Could not write to"
 					" McBSP%d Register\n", mcbsp->id);
+
+				my_omap_mcbsp_dump_reg(OMAP_MCBSP1);
+
 				return -2;
 			}
 		}
@@ -1032,8 +1084,10 @@ int omap_mcbsp_pollwrite(unsigned int id, u16 buf)
 }
 EXPORT_SYMBOL(omap_mcbsp_pollwrite);
 
-int omap_mcbsp_pollread(unsigned int id, u16 *buf)
+int omap_mcbsp_pollread(unsigned int id, u32 *buf)
 {
+	omap_mcbsp_dump_reg(id);
+
 	struct omap_mcbsp *mcbsp;
 
 	if (!omap_mcbsp_check_valid_id(id)) {
@@ -1049,7 +1103,7 @@ int omap_mcbsp_pollread(unsigned int id, u16 *buf)
 		/* resend */
 		return -1;
 	} else {
-		/* wait for recieve confirmation */
+		/* wait for receive confirmation */
 		int attemps = 0;
 		while (!(MCBSP_READ(mcbsp, SPCR1) & RRDY)) {
 			if (attemps++ > 1000) {
@@ -1063,12 +1117,14 @@ int omap_mcbsp_pollread(unsigned int id, u16 *buf)
 				udelay(10);
 				dev_err(mcbsp->dev, "Could not read from"
 					" McBSP%d Register\n", mcbsp->id);
+
+				my_omap_mcbsp_dump_reg(OMAP_MCBSP1);
+
 				return -2;
 			}
 		}
 	}
-	*buf = MCBSP_READ(mcbsp, DRR1);
-
+	*buf = MCBSP_READ(mcbsp, DRR);
 	return 0;
 }
 EXPORT_SYMBOL(omap_mcbsp_pollread);
@@ -1101,6 +1157,7 @@ u32 omap_mcbsp_recv_word(unsigned int id)
 {
 	struct omap_mcbsp *mcbsp;
 	u16 word_lsb, word_msb = 0;
+	u32 word = 0;
 	omap_mcbsp_word_length word_length;
 
 	if (!omap_mcbsp_check_valid_id(id)) {
@@ -1113,11 +1170,13 @@ u32 omap_mcbsp_recv_word(unsigned int id)
 
 	wait_for_completion(&mcbsp->rx_irq_completion);
 
-	if (word_length > OMAP_MCBSP_WORD_16)
+	/*if (word_length > OMAP_MCBSP_WORD_16)
 		word_msb = MCBSP_READ(mcbsp, DRR2);
 	word_lsb = MCBSP_READ(mcbsp, DRR1);
 
-	return (word_lsb | (word_msb << 16));
+	return (word_lsb | (word_msb << 16));*/
+	word = MCBSP_READ(mcbsp, DRR);
+	return word;
 }
 EXPORT_SYMBOL(omap_mcbsp_recv_word);
 
@@ -1370,23 +1429,29 @@ int omap_mcbsp_recv_buffer(unsigned int id, dma_addr_t buffer,
 	if (cpu_class_is_omap2())
 		sync_dev = mcbsp->dma_rx_sync;
 
-	omap_set_dma_transfer_params(mcbsp->dma_rx_lch,
-					OMAP_DMA_DATA_TYPE_S16,
-					length >> 1, 1,
-					OMAP_DMA_SYNC_ELEMENT,
-					sync_dev, 0);
+	omap_enable_dma_irq(mcbsp->dma_rx_lch, 0x01);
+
+	omap_set_dma_transfer_params(mcbsp->dma_rx_lch,			//lch
+					OMAP_DMA_DATA_TYPE_S32,		//data_type
+					(length >> 1) / sizeof(u32) , 	//elem_count
+					2,				//frame_count
+					OMAP_DMA_SYNC_BLOCK,		//sync_mode
+					sync_dev, 			//dma_trigger
+					0);				//src_or_dst_synch
 
 	omap_set_dma_src_params(mcbsp->dma_rx_lch,
 				src_port,
 				OMAP_DMA_AMODE_CONSTANT,
-				mcbsp->phys_base + OMAP_MCBSP_REG_DRR1,
-				0, 0);
+				mcbsp->phys_base + OMAP_MCBSP_REG_DRR,
+				0, 	//source element index
+				0);	//source frame index
 
 	omap_set_dma_dest_params(mcbsp->dma_rx_lch,
 					dest_port,
 					OMAP_DMA_AMODE_POST_INC,
 					buffer,
-					0, 0);
+					0, 	//destination element index	
+					0x80);	//destination frame index
 
 	omap_start_dma(mcbsp->dma_rx_lch);
 	wait_for_completion(&mcbsp->rx_dma_completion);
@@ -1721,7 +1786,7 @@ static void __devexit omap_st_remove(struct omap_mcbsp *mcbsp)
 
 static inline void __devinit omap34xx_device_init(struct omap_mcbsp *mcbsp)
 {
-	mcbsp->dma_op_mode = MCBSP_DMA_MODE_ELEMENT;
+	mcbsp->dma_op_mode = /*MCBSP_DMA_MODE_ELEMENT*/MCBSP_DMA_MODE_THRESHOLD;
 	if (cpu_is_omap34xx()) {
 		/*
 		 * Initially configure the maximum thresholds to a safe value.
